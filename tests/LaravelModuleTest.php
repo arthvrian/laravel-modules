@@ -5,7 +5,6 @@ namespace Nwidart\Modules\Tests;
 use Modules\Recipe\Providers\DeferredServiceProvider;
 use Modules\Recipe\Providers\RecipeServiceProvider;
 use Nwidart\Modules\Json;
-use Nwidart\Modules\Module;
 
 class ModuleTest extends BaseTestCase
 {
@@ -14,19 +13,19 @@ class ModuleTest extends BaseTestCase
      */
     private $module;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->module = new TestingModule($this->app, 'Recipe Name', __DIR__ . '/stubs/valid/Recipe');
     }
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         symlink(__DIR__ . '/stubs/valid', __DIR__ . '/stubs/valid_symlink');
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
         unlink(__DIR__ . '/stubs/valid_symlink');

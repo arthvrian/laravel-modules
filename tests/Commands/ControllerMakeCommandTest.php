@@ -17,7 +17,7 @@ class ControllerMakeCommandTest extends BaseTestCase
      */
     private $modulePath;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->modulePath = base_path('modules/Blog');
@@ -25,7 +25,7 @@ class ControllerMakeCommandTest extends BaseTestCase
         $this->artisan('module:make', ['name' => ['Blog']]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->finder->deleteDirectory($this->modulePath);
         parent::tearDown();
@@ -74,6 +74,20 @@ class ControllerMakeCommandTest extends BaseTestCase
             'controller' => 'MyController',
             'module' => 'Blog',
             '--plain' => true,
+        ]);
+
+        $file = $this->finder->get($this->modulePath . '/Http/Controllers/MyController.php');
+
+        $this->assertMatchesSnapshot($file);
+    }
+
+    /** @test */
+    public function it_generates_an_api_controller()
+    {
+        $this->artisan('module:make-controller', [
+            'controller' => 'MyController',
+            'module' => 'Blog',
+            '--api' => true,
         ]);
 
         $file = $this->finder->get($this->modulePath . '/Http/Controllers/MyController.php');

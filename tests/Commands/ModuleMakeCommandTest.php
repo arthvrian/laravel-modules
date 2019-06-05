@@ -3,6 +3,7 @@
 namespace Nwidart\Modules\Tests\Commands;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 use Nwidart\Modules\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -18,14 +19,14 @@ class ModuleMakeCommandTest extends BaseTestCase
      */
     private $modulePath;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->modulePath = base_path('modules/Blog');
         $this->finder = $this->app['files'];
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->finder->deleteDirectory($this->modulePath);
         if ($this->finder->isDirectory(base_path('modules/ModuleName'))) {
@@ -68,11 +69,23 @@ class ModuleMakeCommandTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_generates_route_file()
+    public function it_generates_web_route_file()
     {
+        $files = $this->app['modules']->config('stubs.files');
         $this->artisan('module:make', ['name' => ['Blog']]);
 
-        $path = $this->modulePath . '/' . $this->app['modules']->config('stubs.files.routes');
+        $path = $this->modulePath . '/' . $files['routes/web'];
+
+        $this->assertMatchesSnapshot($this->finder->get($path));
+    }
+
+    /** @test */
+    public function it_generates_api_route_file()
+    {
+        $files = $this->app['modules']->config('stubs.files');
+        $this->artisan('module:make', ['name' => ['Blog']]);
+
+        $path = $this->modulePath . '/' . $files['routes/api'];
 
         $this->assertMatchesSnapshot($this->finder->get($path));
     }
@@ -198,7 +211,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $notExpected = 'Module [Blog] already exist!
 ';
         $this->assertNotEquals($notExpected, $output);
-        $this->assertTrue(str_contains($output, 'Module [Blog] created successfully.'));
+        $this->assertTrue(Str::contains($output, 'Module [Blog] created successfully.'));
     }
 
     /** @test */

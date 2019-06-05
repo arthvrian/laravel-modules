@@ -4,6 +4,44 @@ All Notable changes to `laravel-modules` will be documented in this file.
 
 ## Next
 
+### Changed
+
+- Replacing `@stop` with `@endsection` in the view stub file
+
+### Added
+
+- `artisan module:route-provider` has a `--force` option to overwrite existing file
+
+### Changed
+
+- Fixing the `RouteServiceProvider` generation to properly use the `routes/web` and `routes/api` stubs
+
+## 5.0.0 - 2019-03-18
+
+### Added
+
+- Laravel 5.8 support
+
+### Changed
+
+- Deprecated string and array methods have been replaced
+- Fixed caching not being cleared after disabling and enabling modules
+- Update Route Provider stub to not affect the root namespace of the URL generator (#727)
+
+### Removed
+
+- **PHP 7.1 support** 
+
+## 4.1.0 - 2019-03-04
+
+### Changed
+
+- Updated to laravel mix 4
+- Add `--api` argument to `module:make-controller` command
+- Seeding modules outside out `Modules` namespace
+
+## 4.0.0 - 2018-09-30
+
 ### Added
 
 - New way of handling routes by default using a RouteServiceProvider (instead of start.php)
@@ -12,11 +50,6 @@ All Notable changes to `laravel-modules` will be documented in this file.
 ### Changed
 
 - Allow class resolution on short name and abstract
-
-### Removed
-
-### Changed
-
 - `module:seed` accepts a `--class` option
 
 ## 3.3.1 - 2018-07-13

@@ -18,7 +18,7 @@ class ModelMakeCommandTest extends BaseTestCase
      */
     private $modulePath;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->modulePath = base_path('modules/Blog');
@@ -26,7 +26,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->artisan('module:make', ['name' => ['Blog']]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->finder->deleteDirectory($this->modulePath);
         parent::tearDown();
@@ -93,7 +93,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $migrationFile = $migrations[0];
         $migrationContent = $this->finder->get($this->modulePath . '/Database/Migrations/' . $migrationFile->getFilename());
 
-        $this->assertContains('create_product_details_table', $migrationFile->getFilename());
+        $this->assertStringContainsString('create_product_details_table', $migrationFile->getFilename());
         $this->assertMatchesSnapshot($migrationContent);
     }
 
@@ -103,7 +103,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
         $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
 
-        $this->assertContains('already exists', Artisan::output());
+        $this->assertStringContainsString('already exists', Artisan::output());
     }
 
     /** @test */
